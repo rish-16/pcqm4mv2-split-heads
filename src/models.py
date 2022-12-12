@@ -91,7 +91,6 @@ class EdgeGNN(tgnn.MessagePassing):
         return self.propagate(edge_index=edge_index, x=x, edge_attr=edge_attr)
 
     def message(self, x_i, x_j, edge_attr):
-        print (edge_attr.shape)
         return self.edge_embed(edge_attr)
 
 class GraphTransformer(nn.Module):
@@ -103,10 +102,11 @@ class GraphTransformer(nn.Module):
     def forward(self, x, adj, edge_index, edge_attr):
         pass
 
-tud = TUDataset(root="./data/", use_edge_attr=True, use_node_attr=True, name="MUTAG")
+tud = TUDataset(root="../data/", use_edge_attr=True, use_node_attr=True, name="MUTAG")
 graph = tud[0]
 print (graph)
 
 gnn = EdgeGNN(graph.edge_attr.size(1), 10)
+print (graph.x.shape, graph.edge_attr.shape)
 y = gnn(graph.x, graph.edge_index, graph.edge_attr)
-print (y.shape)
+print (y.shape, graph.edge_attr.shape)
